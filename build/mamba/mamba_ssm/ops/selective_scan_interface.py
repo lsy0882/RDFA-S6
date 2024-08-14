@@ -151,10 +151,6 @@ def selective_scan_ref(u, delta, A, B, C, D=None, z=None, delta_bias=None, delta
     return out if not return_last_state else (out, last_state)
 
 
-
-
-
-# Parallel 3 (must use multi kernel Mamba)
 class MambaInnerFnNoOutProj(torch.autograd.Function):
 
     @staticmethod
@@ -170,7 +166,7 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
         if D is not None:
             D = D.detach().requires_grad_(True)
 
-        num_kernels = min(num_kernels, len(conv1ds))  # num_kernels 값을 conv1ds 길이로 제한
+        num_kernels = min(num_kernels, len(conv1ds))
         L = xz.shape[-1]
         delta_rank = delta_proj_weight.shape[1]
         d_state = A.shape[-1] * (1 if not A.is_complex() else 2)
@@ -191,7 +187,6 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
         ctx.B_proj_bias_is_None = B_proj_bias is None
         ctx.C_proj_bias_is_None = C_proj_bias is None
 
-        # 병렬 처리된 결과를 저장할 리스트
         out_z_list = []
         conv1d_out_list = []
         delta_list = []
@@ -201,7 +196,6 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
             conv1d_weight = conv1d.weight
             conv1d_bias = conv1d.bias
 
-            # conv1d_weight의 폭이 2에서 4 사이인지 확인
             if (conv1d_weight.shape[2] < 2) or (conv1d_weight.shape[2] > 4):
                 raise ValueError(f"conv1d_weight width should be between 2 and 4, but got {conv1d_weight.shape[2]}")
 
@@ -210,7 +204,6 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
             conv1d_out = causal_conv1d_cuda.causal_conv1d_fwd(x, conv1d_weight, conv1d_bias, True)
             conv1d_out_list.append(conv1d_out)
 
-            # 병렬 처리 가능한 연산들
             x_dbl = F.linear(rearrange(conv1d_out, 'b d l -> (b l) d'), x_proj_weight)
             delta = rearrange(delta_proj_weight @ x_dbl[:, :delta_rank].t(), "d (b l) -> b d l", l=L)
             delta_list.append(delta)
@@ -246,16 +239,15 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
 
             out_z_list.append(out_z)
 
-        final_out_z = torch.cat(out_z_list, dim=1)  # concat 연산으로 변경
+        final_out_z = torch.cat(out_z_list, dim=1)
 
         ctx.delta_softplus = delta_softplus
         ctx.checkpoint_lvl = checkpoint_lvl
-        ctx.out_z_list = out_z_list  # out_z_list를 ctx에 저장
+        ctx.out_z_list = out_z_list
         ctx.conv1ds = conv1ds
         ctx.num_kernels = num_kernels
         ctx.delta_list = delta_list
 
-        # conv1d_out과 delta를 저장하거나, 체크포인트 레벨에 따라 재계산할 수 있도록 설정
         ctx.save_for_backward(xz, x_proj_weight, delta_proj_weight,
                             A, B, C, D, delta_bias, B_proj_bias, C_proj_bias, scan_intermediates, out, final_out_z, *conv1d_out_list)
 
@@ -308,7 +300,6 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
         ddelta_bias_list = []
         dz_list = []
 
-        # out_z_list는 concat되어 있으므로 분리
         out_z_splits = torch.split(dout, dout.size(1) // len(ctx.out_z_list), dim=1)
 
         for i, out_z in enumerate(ctx.out_z_list):
@@ -358,7 +349,7 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
         ddelta_proj_weight = torch.einsum("dB,Br->dr", ddelta, x_dbl[:, :delta_rank])
         dx_dbl[:, :delta_rank] = torch.einsum("dB,dr->Br", ddelta, delta_proj_weight)
         dconv1d_out = rearrange(dconv1d_out, "b d l -> d (b l)")
-        dx_proj_weight = torch.einsum("Br,Bd->rd", dx_dbl, rearrange(conv1d_out_list[0], "b d l -> (b l) d"))  # conv1d_out_list[0]으로 수정
+        dx_proj_weight = torch.einsum("Br,Bd->rd", dx_dbl, rearrange(conv1d_out_list[0], "b d l -> (b l) d"))
         dconv1d_out = torch.addmm(dconv1d_out, x_proj_weight.t(), dx_dbl.t(), out=dconv1d_out)
         dconv1d_out = rearrange(dconv1d_out, "d (b l) -> b d l", b=x.shape[0], l=x.shape[-1])
         dconv1d_weight, dconv1d_bias = [], []
@@ -373,7 +364,6 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
             dconv1d_weight.append(rearrange(dweight, "d w -> d 1 w"))
             dconv1d_bias.append(dbias if bias is not None else None)
 
-        # 올바른 반환 형식으로 변경
         return (dxz, None, dx_proj_weight, ddelta_proj_weight,
             dA, 
             dB if ctx.is_variable_B else None, 
@@ -383,6 +373,7 @@ class MambaInnerFnNoOutProj(torch.autograd.Function):
             dB_proj_bias if not ctx.B_proj_bias_is_None else None, 
             dC_proj_bias if not ctx.C_proj_bias_is_None else None, 
             None, None, None)
+
 
 class MambaInnerFn(torch.autograd.Function):
 
