@@ -48,7 +48,7 @@ Click to expand</summary>
    * <details>
         <summary>Sample</summary>
          
-         ``yaml
+         ```yaml
           args:
               task: temporal_action_localization
               benchmark: THUMOS14 # Select one from the following options: [ActivityNet, FineAction, HACS, THUMOS14]
