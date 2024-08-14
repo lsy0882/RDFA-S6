@@ -38,19 +38,19 @@ pip install mmengine
 ```
 
 #### Step 2: Configuration setting
-⭐ This project uses Hydra to manage configuration files (.yaml). The configuration files are structured into four types, with their respective locations and roles as follows:
+⭐ This project uses Hydra to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:
 1. run.yaml
-   * Location: ./
+   * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
 2. dataset.yaml
-* Location: tasks/${args.task}/benchmarks/${args.benchmark}
-* Role: Configuration file for data preprocessing and batching-related settings.
+  * Location: `tasks/${args.task}/benchmarks/${args.benchmark}`
+  * Role: Configuration file for data preprocessing and batching-related settings.
 3. model.yaml
-* Location: tasks/${args.task}/models/${args.model}
-* Role: Configuration file for architecture modeling-related settings.
+  * Location: `tasks/${args.task}/models/${args.model}`
+  * Role: Configuration file for architecture modeling-related settings.
 4. engine.yaml
-* Location: tasks/${args.task}/models/${args.model}
-* Role: Configuration file for train/infer-related settings for the target model.
+  * Location: `tasks/${args.task}/models/${args.model}`
+  * Role: Configuration file for train/infer-related settings for the target model.
 
 1. Open `.../FakeMix/preprocessor/data_preprocess.py`.
 2. Set the `data_directory` variable to the root directory of FakeAVCeleb.
