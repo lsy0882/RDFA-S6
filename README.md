@@ -1,7 +1,7 @@
 # RDFA-S6
 
 ## Guide
-### Instructions for Environment Setting
+### [Instructions for Environment Setting]
 
 #### Step 1: Dependency setting
 ⭐NOTE
@@ -280,7 +280,7 @@ pip install mmengine
                  gamma: 0.1
     </details>
 
-### Instructions for Running the Engine
+### [Instructions for Running the Engine]
 ⭐NOTE
 * This project provides monitoring with `TensorBoard` by default, and optionally with [`wandb`](https://www.wandb.com/). If the API key for wandb is not provided in the settings, `wandb` will not be used, and only `TensorBoard` will be available for monitoring.<br>
 
