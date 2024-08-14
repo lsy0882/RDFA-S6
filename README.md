@@ -1,7 +1,7 @@
 # RDFA-S6
 
 ## Guide
-### 1. Instructions for Environment Setting
+### Instructions for Environment Setting
 
 #### Step 1: Dependency setting
 ⭐ We suggest using [`conda`](https://docs.conda.io/en/latest/) to manage your packages.
@@ -36,7 +36,6 @@ pip install pandas joblib
 pip install tensorboard
 pip install mmengine
 ```
-
 
 #### Step 2: Configuration setting
 ⭐ This project uses `Hydra` to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:
@@ -279,12 +278,8 @@ pip install mmengine
                  gamma: 0.1
     </details>
 
-
-
-
-### 2. Testing Baseline_1_Unimodal_Video_Xception and Baseline_1_Unimodal_Audio_Xception
-
-First, ensure you have a [`wandb`](https://www.wandb.com/) account as this experiment logs results using wandb.
+### Instructions for Running the Engine
+⭐This project provides monitoring with `TensorBoard` by default, and optionally with [`wandb`](https://www.wandb.com/). If the API key for wandb is not provided in the settings, `wandb` will not be used, and only `TensorBoard` will be available for monitoring.
 
 #### Steps 1: Set Up Wandb Account
 Create a wandb account and get your API key.
