@@ -1,16 +1,16 @@
 dataset:
     bench_info:
-        num_classes: 20 # number of classes = num_classes + 1 (background) with last category as background. (e.g. num_classes = 10 -> 0, 1, ..., 9 as actions, 10 as background)
+        num_classes: 20 # Adjust the value according to the number of classes handled by the benchmark.
     anno_info:
         format:
-            file_path: /home/nas4/user/lsy/idea_sy/AR-Mamba/tasks/temporal_action_localization/benchmarks/THUMOS14/annotations/thumos14.json # insert annotation file path
+            file_path: "" # Insert the file path for the annotation.
     feat_info:
         format:
-            dir_path: /home/nas4/user/lsy/idea_sy/AR-Mamba/tasks/temporal_action_localization/benchmarks/THUMOS14/data/features/thumos14_internvideo2_6b_w16_s4 # insert features directory path
-            prefix: ""
-            type: "_spatial_feature"
-            ext: ".pt"
-        meta:
+            dir_path: "" # Insert the directory path where the features are located.
+            prefix: "" # Define this variable if you are using a prefix during preprocessing.
+            type: "" # Define this variable if you are using a mid-term value during preprocessing.
+            ext: "" # Define this variable if you are using an extension during preprocessing.
+        meta: # Define and utilize preprocessing variables for the data.
             feat_stride: 4
             downsample_rate: 1
             num_frames: 16
@@ -18,7 +18,7 @@ dataset:
             max_seq_len: 2304
             trunc_thresh: 0.5
             crop_ratio: [0.9, 1.0]
-    loader:
+    loader: # Set up the configurations related to the dataloader.
         pin_memory: false
         num_workers: 20
         seed: 1234567891

@@ -7,11 +7,11 @@ engine:
     init_loss_norm: 100
     init_loss_norm_momentum: 0.9
     label_smoothing: 0.0
-    loss_weight: 1.0 # on reg_loss, use -1 to enable auto balancing
-    pre_nms_thresh: 0.001 # test
+    loss_weight: 1.0
+    pre_nms_thresh: 0.001
     pre_nms_topk: 2000
     duration_thresh: 0.05
-    nms_method: soft # soft | hard | none
+    nms_method: soft
     iou_threshold: 0.1
     min_score: 0.001
     max_seg_num: 200

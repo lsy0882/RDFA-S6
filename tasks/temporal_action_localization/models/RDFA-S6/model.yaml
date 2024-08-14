@@ -16,13 +16,13 @@ model:
                 block_n: 1
                 emb_c: ${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.emb_c}
                 kernel_size: 4
-                drop_path_rate: 0.3 # default: 0.3
+                drop_path_rate: 0.3
                 recurrent: 4
             BranchModule:
                 block_n: 5
                 emb_c: ${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.emb_c}
                 kernel_size: 4
-                drop_path_rate: 0.3 # default: 0.3
+                drop_path_rate: 0.3
     neck_info:
         name: FPNIdentity
         FPNIdentity:
