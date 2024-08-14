@@ -45,7 +45,7 @@ pip install mmengine
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
    * <details>
      <summary>Sample</summary>
-  
+
      ```yaml
      args:
          task: temporal_action_localization
@@ -112,21 +112,23 @@ pip install mmengine
                format: "{time} {level} {message}" #! Don't change
     </details>
 
-2. dataset.yaml
+3. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
    * Role: Configuration file for data preprocessing and batching-related settings.
-   * Sample:
+   * <details>
+     <summary>Sample</summary>
+
      ```yaml
      
-     ```
-3. model.yaml
+    </details>
+4. model.yaml
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for architecture modeling-related settings.
    * Sample:
      ```yaml
      
      ```
-4. engine.yaml
+5. engine.yaml
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for train/infer-related settings for the target model.
    * Sample:
