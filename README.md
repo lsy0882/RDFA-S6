@@ -42,7 +42,8 @@ pip install mmengine
 1. run.yaml
    * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
-   * ```yaml
+   * Sample:
+     ```yaml
      args:
           task: temporal_action_localization
           benchmark: THUMOS14 # choice=[ActivityNet, FineAction, HACS, THUMOS14]
