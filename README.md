@@ -47,6 +47,7 @@ Click to expand</summary>
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
    * <details>
         <summary>Sample</summary>
+     
          ```yaml
           args:
               task: temporal_action_localization
@@ -111,7 +112,7 @@ Click to expand</summary>
                   - sink: ${log_path}/loguru.log #! Don't change
                     level: DEBUG #! Don't change
                     format: "{time} {level} {message}" #! Don't change
-     ```
+       ```
    </details>
 2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
