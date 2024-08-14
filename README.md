@@ -4,18 +4,18 @@
 ### 1. Instructions for Environment Setting
 
 #### Step 1: Build dependencies
+NOTE1: We suggest using [conda](https://docs.conda.io/en/latest/) to manage your packages.
+NOTE2: To prevent conflicts between dependencies, the environment was not exported to a .yaml or .txt file. Therefore, you will need to manually install the required packages according to the guidelines.
+NOTE3: Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.
 ```bash
 # Clone git
 git clone https://github.com/lsy0882/RDFA-S6.git
 
 # Create conda environments
-# NOTE1: We suggest using [conda](https://docs.conda.io/en/latest/) to manage your packages.
-# NOTE2: To prevent conflicts between dependencies, the environment was not exported to a .yaml or .txt file. Therefore, you will need to manually install the required packages according to the guidelines.
 conda create -n rdfa-s6 python=3.11
 conda activate rdfa-s6
 
 # Install pytorch 
-# NOTE: Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.
 pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 
 # Install packages
