@@ -45,74 +45,74 @@ Click to expand</summary>
 1. run.yaml
    * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
-<details>
-    <summary>Sample</summary>
-     
-     ```yaml
-      args:
-          task: temporal_action_localization
-          benchmark: THUMOS14 # Select one from the following options: [ActivityNet, FineAction, HACS, THUMOS14]
-          model: RDFA-S6 # Choose the directory name located in tasks/${task}/models/
-          mode: train # Select either "train" or "test"
-          exp_name: b2_me50_ResidualSharedBiMambaBackbone_v1.19.0-10 # Enter the name of your experiment
-          checkpoint: latent # Choose either "latent" or specify your weight path
-          gpuid: "0" # Specify your GPU index (only a single GPU is supported)
-      
-      model_path: tasks/${args.task}/models/${args.model} #! Don't change
-      log_path: ${model_path}/logs/${args.benchmark}/${args.exp_name}/ #! Don't change
-      benchmark_path: tasks/${args.task}/benchmarks/${args.benchmark} #! Don't change
-      
-      engine: ${model_path}/engine #! Don't change
-      dataset: ${benchmark_path}/dataset #! Don't change
-      model: ${model_path}/model #! Don't change
-      
-      wandb:
-          login:
-              key: "" #! Insert your wandb personal API key
-          init: # Reference: https://docs.wandb.ai/ref/python/init
-              entity: "" #! Insert your wandb profile name or team name
-              project: "[Project] RSMamba-TAL-Dev"
-              name: ${args.benchmark}-${args.model}-${args.exp_name}
-              id: ${args.benchmark}-${args.model}-${args.exp_name}
-              job_type: ${args.mode}
-              group: 
-              tags: ["${args.benchmark}", "${args.model}"]
-              notes: "RS-Mamba initial update"
-              dir: ${log_path}/ #! Don't change
-              resume: "auto"
-              save_code: true
-              reinit: false
-              magic: ~
-              config_exclude_keys: []
-              config_include_keys: []
-              anonymous:
-              mode: "online"
-              allow_val_change: true
-              force: false
-              sync_tensorboard: false
-              monitor_gym: false
-      
-      hydra:
-          run:
-              dir: ${log_path}/outputs #! Don't change
-          job_logging:
-              level: INFO #! Don't change
-          sweep:
-              dir: ${log_path}/multirun #! Don't change
-      
-      job:
-          name: ${args.exp_name} #! Don't change
-          id: ${args.exp_name} #! Don't change
-          num:
-          config_path:
-          config_name:
-      
-      loguru:
-          handlers:
-              - sink: ${log_path}/loguru.log #! Don't change
-                level: DEBUG #! Don't change
-                format: "{time} {level} {message}" #! Don't change
-     ```
+   * <details>
+        <summary>Sample</summary>
+         
+         ```yaml
+          args:
+              task: temporal_action_localization
+              benchmark: THUMOS14 # Select one from the following options: [ActivityNet, FineAction, HACS, THUMOS14]
+              model: RDFA-S6 # Choose the directory name located in tasks/${task}/models/
+              mode: train # Select either "train" or "test"
+              exp_name: b2_me50_ResidualSharedBiMambaBackbone_v1.19.0-10 # Enter the name of your experiment
+              checkpoint: latent # Choose either "latent" or specify your weight path
+              gpuid: "0" # Specify your GPU index (only a single GPU is supported)
+          
+          model_path: tasks/${args.task}/models/${args.model} #! Don't change
+          log_path: ${model_path}/logs/${args.benchmark}/${args.exp_name}/ #! Don't change
+          benchmark_path: tasks/${args.task}/benchmarks/${args.benchmark} #! Don't change
+          
+          engine: ${model_path}/engine #! Don't change
+          dataset: ${benchmark_path}/dataset #! Don't change
+          model: ${model_path}/model #! Don't change
+          
+          wandb:
+              login:
+                  key: "" #! Insert your wandb personal API key
+              init: # Reference: https://docs.wandb.ai/ref/python/init
+                  entity: "" #! Insert your wandb profile name or team name
+                  project: "[Project] RSMamba-TAL-Dev"
+                  name: ${args.benchmark}-${args.model}-${args.exp_name}
+                  id: ${args.benchmark}-${args.model}-${args.exp_name}
+                  job_type: ${args.mode}
+                  group: 
+                  tags: ["${args.benchmark}", "${args.model}"]
+                  notes: "RS-Mamba initial update"
+                  dir: ${log_path}/ #! Don't change
+                  resume: "auto"
+                  save_code: true
+                  reinit: false
+                  magic: ~
+                  config_exclude_keys: []
+                  config_include_keys: []
+                  anonymous:
+                  mode: "online"
+                  allow_val_change: true
+                  force: false
+                  sync_tensorboard: false
+                  monitor_gym: false
+          
+          hydra:
+              run:
+                  dir: ${log_path}/outputs #! Don't change
+              job_logging:
+                  level: INFO #! Don't change
+              sweep:
+                  dir: ${log_path}/multirun #! Don't change
+          
+          job:
+              name: ${args.exp_name} #! Don't change
+              id: ${args.exp_name} #! Don't change
+              num:
+              config_path:
+              config_name:
+          
+          loguru:
+              handlers:
+                  - sink: ${log_path}/loguru.log #! Don't change
+                    level: DEBUG #! Don't change
+                    format: "{time} {level} {message}" #! Don't change
+         ```
 </details>
 2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
