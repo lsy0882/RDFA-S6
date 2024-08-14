@@ -19,12 +19,17 @@ conda activate rdfa-s6
 pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 
 # Install packages
-pip install
+pip install hydra-core
+pip install wandb
+pip install einops
 
 # Build cmake libraries
-python ./build/causal-conv1d/setup.py develop
-python ./build/mamba/setup.py develop
-python ./build/nms_1d_cpu/setup.py install --user
+cd ./build/causal-conv1d/
+python setup.py develop
+cd ../mamba/
+python setup.py develop
+cd ../nms_1d_cpu/
+python setup.py install --user
 ```
 
 #### Step 2: Data Preprocessing
