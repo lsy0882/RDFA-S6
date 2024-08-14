@@ -2,7 +2,6 @@ import torch
 from .blocks import *
 
 class ResidualSharedBiMambaBackbone(nn.Module):
-    """ A backbone that with only conv """
     def __init__(self, **kwargs):
         super().__init__()
         self.embedding_module = EmbeddingModule(**kwargs.get("EmbeddingModule", {}))
