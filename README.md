@@ -4,7 +4,7 @@
 ### 1. Instructions for Environment Setting
 
 #### Step 1: Build dependencies
-⭐ We suggest using [conda](https://docs.conda.io/en/latest/) to manage your packages.
+⭐ We suggest using [`conda`](https://docs.conda.io/en/latest/) to manage your packages.
 ⭐ To prevent conflicts between dependencies, the environment was not exported to a `.yaml` or `.txt` file. Therefore, you will need to manually install the required packages according to the guidelines.
 ⭐ Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.
 ```bash
@@ -38,7 +38,7 @@ pip install mmengine
 ```
 
 #### Step 2: Configuration setting
-⭐ This project uses Hydra to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:
+⭐ This project uses `Hydra` to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:
 1. run.yaml
    * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
