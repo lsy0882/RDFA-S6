@@ -44,14 +44,14 @@ pip install mmengine
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
    * Sample:
      ```yaml
-     args:
+      args:
           task: temporal_action_localization
-          benchmark: THUMOS14 # choice=[ActivityNet, FineAction, HACS, THUMOS14]
-          model: RDFA-S6 # choose name of directory in tasks/${task}/models/
-          mode: train # choice=["train","test"]
-          exp_name: b2_me50_ResidualSharedBiMambaBackbone_v1.19.0-10 # insert your experiment name
-          checkpoint: latent # choice=["latent","${weight_path}"]
-          gpuid: "0" # insert your gpu index (only use single gpu) 
+          benchmark: THUMOS14 # Select one from the following options: [ActivityNet, FineAction, HACS, THUMOS14]
+          model: RDFA-S6 # Choose the directory name located in tasks/${task}/models/
+          mode: train # Select either "train" or "test"
+          exp_name: b2_me50_ResidualSharedBiMambaBackbone_v1.19.0-10 # Enter the name of your experiment
+          checkpoint: latent # Choose either "latent" or specify your weight path
+          gpuid: "0" # Specify your GPU index (only a single GPU is supported)
       
       model_path: tasks/${args.task}/models/${args.model} #! Don't change
       log_path: ${model_path}/logs/${args.benchmark}/${args.exp_name}/ #! Don't change
@@ -64,7 +64,7 @@ pip install mmengine
       wandb:
           login:
               key: "" #! Insert your wandb personal API key
-          init: # Ref: https://docs.wandb.ai/ref/python/init
+          init: # Reference: https://docs.wandb.ai/ref/python/init
               entity: "" #! Insert your wandb profile name or team name
               project: "[Project] RSMamba-TAL-Dev"
               name: ${args.benchmark}-${args.model}-${args.exp_name}
@@ -111,12 +111,24 @@ pip install mmengine
 2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
    * Role: Configuration file for data preprocessing and batching-related settings.
+   * Sample:
+     ```yaml
+     
+     ```
 3. model.yaml
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for architecture modeling-related settings.
+   * Sample:
+     ```yaml
+     
+     ```
 4. engine.yaml
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for train/infer-related settings for the target model.
+   * Sample:
+     ```yaml
+     
+     ```
 
 
 
