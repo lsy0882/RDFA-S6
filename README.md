@@ -3,7 +3,7 @@
 ## Guide
 ### 1. Instructions for Environment Setting
 
-#### Step 1: Build dependencies
+#### Step 1: Dependency setting
 ⭐ We suggest using [`conda`](https://docs.conda.io/en/latest/) to manage your packages.
 ⭐ To prevent conflicts between dependencies, the environment was not exported to a `.yaml` or `.txt` file. Therefore, you will need to manually install the required packages according to the guidelines.
 ⭐ Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.
@@ -42,6 +42,9 @@ pip install mmengine
 1. run.yaml
    * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
+   * ```yaml
+     
+     ```
 2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
    * Role: Configuration file for data preprocessing and batching-related settings.
@@ -52,37 +55,12 @@ pip install mmengine
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for train/infer-related settings for the target model.
 
-1. Open `.../FakeMix/preprocessor/data_preprocess.py`.
-2. Set the `data_directory` variable to the root directory of FakeAVCeleb.
-3. Set the `output_directory` variable to the path where you want to save the preprocessed data.
-4. After modifying the variables, run the following command:
-   ```bash
-   python .../FakeMix/preprocessor/data_preprocess.py
-   ```
 
-#### Step 3: Mixing Clips
-1. Open `.../FakeMix/preprocessor/mix_clips.py`.
-2. Set the `dataset_base_dir` variable to the same path as the `output_directory` from the previous step.
-3. Set the `output_base_dir` variable to the path where you want to save the mixed data.
-4. After modifying the variables, run the following command (ensure not to change the seed value for `random.seed()`):
-   ```bash
-   python .../FakeMix/preprocessor/mix_clips.py
-   ```
-
-#### Step 4: Understanding the FakeMix Benchmark Data
-The mixed data obtained using `.../FakeMix/preprocessor/mix_clips.py` is the FakeMix benchmark data. It is organized as follows:
-
-- **FakeVideo-FakeAudio**: Directory containing videos where each video has 1-second clips of FakeVideo-FakeAudio or RealVideo-RealAudio appearing in random order.
-- **FakeVideo-RealAudio**: Directory containing videos where each video has 1-second clips of FakeVideo-RealAudio or RealVideo-RealAudio appearing in random order.
-- **RealVideo-FakeAudio**: Directory containing videos where each video has 1-second clips of RealVideo-FakeAudio or RealVideo-RealAudio appearing in random order.
-
-#### Annotations
-For each created video (e.g., `abc.mp4`) or audio file (e.g., `abc.wav`), there is an annotation file with the same name saved in JSON format containing frame-by-frame label information (e.g., `abc.json`).
 
 
 ### 2. Testing Baseline_1_Unimodal_Video_Xception and Baseline_1_Unimodal_Audio_Xception
 
-First, ensure you have a [wandb](https://www.wandb.com/) account as this experiment logs results using wandb.
+First, ensure you have a [`wandb`](https://www.wandb.com/) account as this experiment logs results using wandb.
 
 #### Steps 1: Set Up Wandb Account
 Create a wandb account and get your API key.
