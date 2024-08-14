@@ -111,7 +111,7 @@ pip install mmengine
                     level: DEBUG #! Don't change
                     format: "{time} {level} {message}" #! Don't change
          ```
-
+     </details>
 2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
    * Role: Configuration file for data preprocessing and batching-related settings.
