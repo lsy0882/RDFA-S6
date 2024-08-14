@@ -1,0 +1,65 @@
+model:
+    backbone_info:
+        name: ResidualSharedBiMambaBackbone
+        ResidualSharedBiMambaBackbone:
+            EmbeddingModule:
+                input_c: 3200
+                emb_c: 512
+                kernel_size: 3
+                stride: 1
+                padding: ${floordiv:${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.kernel_size}, 2}
+                dilation: 1
+                groups: 1
+                bias: false
+                padding_mode: "zeros"
+            StemModule:
+                block_n: 1
+                emb_c: ${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.emb_c}
+                kernel_size: 4
+                drop_path_rate: 0.3 # default: 0.3
+                recurrent: 4
+            BranchModule:
+                block_n: 5
+                emb_c: ${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.emb_c}
+                kernel_size: 4
+                drop_path_rate: 0.3 # default: 0.3
+    neck_info:
+        name: FPNIdentity
+        FPNIdentity:
+            in_channels: 512
+            out_channel: 512
+            with_ln: true
+            scale_factor: 2
+        FPN1D:
+            in_channels: 512
+            out_channel: 512
+            with_ln: true
+            scale_factor: 2
+    generator_info:
+        name: PointGenerator
+        PointGenerator:
+            max_seq_len: 2304
+            max_buffer_len_factor: 6.0
+            scale_factor: 2
+            fpn_levels: # TBD
+            regression_range: [[0, 4], [4, 8], [8, 16], [16, 32], [32, 64], [64, 10000]]
+    head_info:
+        name:
+            - PtTransformerClsHead
+            - PtTransformerRegHead
+        PtTransformerClsHead:
+            input_dim: 512 # fpn_dim
+            feat_dim: 512 # head_dim
+            num_classes: 20
+            prior_prob: 0.01
+            num_layers: 3
+            kernel_size: 3
+            with_ln: true
+            empty_cls: []
+        PtTransformerRegHead:
+            input_dim: 512 # fpn_dim
+            feat_dim: 512 # head_dim
+            fpn_levels: # TBD
+            num_layers: 3
+            kernel_size: 3
+            with_ln: true

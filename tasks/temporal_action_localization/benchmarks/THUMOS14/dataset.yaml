@@ -1,0 +1,28 @@
+dataset:
+    bench_info:
+        num_classes: 20 # number of classes = num_classes + 1 (background) with last category as background. (e.g. num_classes = 10 -> 0, 1, ..., 9 as actions, 10 as background)
+    anno_info:
+        format:
+            file_path: /home/nas4/user/lsy/idea_sy/AR-Mamba/tasks/temporal_action_localization/benchmarks/THUMOS14/annotations/thumos14.json # insert annotation file path
+    feat_info:
+        format:
+            dir_path: /home/nas4/user/lsy/idea_sy/AR-Mamba/tasks/temporal_action_localization/benchmarks/THUMOS14/data/features/thumos14_internvideo2_6b_w16_s4 # insert features directory path
+            prefix: ""
+            type: "_spatial_feature"
+            ext: ".pt"
+        meta:
+            feat_stride: 4
+            downsample_rate: 1
+            num_frames: 16
+            default_fps: ~
+            max_seq_len: 2304
+            trunc_thresh: 0.5
+            crop_ratio: [0.9, 1.0]
+    loader:
+        pin_memory: false
+        num_workers: 20
+        seed: 1234567891
+        batch_size: 2
+        max_seq_len: ${dataset.feat_info.meta.max_seq_len}
+        padding_value: 0.0
+        max_div_factor: 1

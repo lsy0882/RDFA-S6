@@ -1,0 +1,50 @@
+engine:
+    max_epochs: 50
+    clip_grad_l2norm: 1.0
+    print_freq: 5
+    center_sample: radius
+    center_sample_radius: 1.5
+    init_loss_norm: 100
+    init_loss_norm_momentum: 0.9
+    label_smoothing: 0.0
+    loss_weight: 1.0 # on reg_loss, use -1 to enable auto balancing
+    pre_nms_thresh: 0.001 # test
+    pre_nms_topk: 2000
+    duration_thresh: 0.05
+    nms_method: soft # soft | hard | none
+    iou_threshold: 0.1
+    min_score: 0.001
+    max_seg_num: 200
+    multiclass_nms: true
+    nms_sigma: 0.5
+    voting_thresh: 0.7
+    ext_score_file:
+    criterion:
+        name: loss1
+    optimizer: 
+        name: AdamW
+        SGD:
+            lr: 1.0e-4
+            momentum: 0.9
+            weight_decay: 5.0e-2
+        AdamW:
+            lr: 1.0e-4
+            weight_decay: 5.0e-2
+    scheduler: 
+        name: LinearWarmupCosineAnnealingLR
+        LinearWarmupCosineAnnealingLR:
+            T_max: ${engine.max_epochs}
+            T_warmup: 5
+            warmup_start_lr: 0.0
+            eta_min: 1e-8
+        LinearWarmupMultiStepLR:
+            T_warmup: 5
+            milestones: [30, 60, 90]
+            warmup_start_lr: 0.0
+            gamma: 0.1
+        CosineAnnealingLR:
+            max_epochs: ${engine.max_epochs}
+            eta_min: 0
+        MultiStepLR:
+            milestone_epochs: []
+            gamma: 0.1
