@@ -1,7 +1,7 @@
 args:
     task: temporal_action_localization
     benchmark: THUMOS14 # choice=[ActivityNet, FineAction, HACS, THUMOS14]
-    model: LSY # choose name of directory in tasks/${task}/models/
+    model: RDFA-S6 # choose name of directory in tasks/${task}/models/
     mode: train # choice=["train","test"]
     exp_name: b2_me50_ResidualSharedBiMambaBackbone_v1.19.0-10 # insert your experiment name
     checkpoint: latent # choice=["latent","${weight_path}"]
