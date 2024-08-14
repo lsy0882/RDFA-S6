@@ -17,9 +17,9 @@ model: ${model_path}/model #! Don't change
 
 wandb:
     login:
-        key: "99975cd8f95af3ba68278d2484eb109af43a4a64" #! Insert your wandb persionel API key
+        key: "" #! Insert your wandb personal API key
     init: # Ref: https://docs.wandb.ai/ref/python/init
-        entity: "team_lsy"
+        entity: "" #! Insert your wandb profile name or team name
         project: "[Project] RSMamba-TAL-Dev"
         name: ${args.benchmark}-${args.model}-${args.exp_name}
         id: ${args.benchmark}-${args.model}-${args.exp_name}
