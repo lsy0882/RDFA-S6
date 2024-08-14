@@ -45,7 +45,7 @@ pip install mmengine
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
    * <details>
         <summary>Sample</summary>
-         
+         <!-- -->
          ```yaml
           args:
               task: temporal_action_localization
