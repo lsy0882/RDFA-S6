@@ -4,7 +4,7 @@
 ### Instructions for Environment Setting
 
 #### Step 1: Dependency setting
-⭐NOTE<br>
+⭐NOTE
 * We suggest using [`conda`](https://docs.conda.io/en/latest/) to manage your packages.
 * To prevent conflicts between dependencies, the environment was not exported to a `.yaml` or `.txt` file. Therefore, you will need to manually install the required packages according to the guidelines.
 * Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.
@@ -39,7 +39,8 @@ pip install mmengine
 ```
 
 #### Step 2: Configuration setting
-⭐NOTE: This project uses `Hydra` to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:<br>
+⭐NOTE
+* This project uses `Hydra` to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:<br>
 1. run.yaml
    * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
@@ -280,7 +281,8 @@ pip install mmengine
     </details>
 
 ### Instructions for Running the Engine
-⭐NOTE: This project provides monitoring with `TensorBoard` by default, and optionally with [`wandb`](https://www.wandb.com/). If the API key for wandb is not provided in the settings, `wandb` will not be used, and only `TensorBoard` will be available for monitoring.<br>
+⭐NOTE
+* This project provides monitoring with `TensorBoard` by default, and optionally with [`wandb`](https://www.wandb.com/). If the API key for wandb is not provided in the settings, `wandb` will not be used, and only `TensorBoard` will be available for monitoring.<br>
 
 #### Step 1: Set up configuration files
 Set up the configuration by referring to the comments in each configuration file.
