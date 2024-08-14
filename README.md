@@ -111,30 +111,173 @@ pip install mmengine
                level: DEBUG #! Don't change
                format: "{time} {level} {message}" #! Don't change
     </details>
-
-3. dataset.yaml
+2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
    * Role: Configuration file for data preprocessing and batching-related settings.
    * <details>
      <summary>Sample</summary>
 
      ```yaml
-     
+     dataset:
+         bench_info:
+             num_classes: 20 # Adjust the value according to the number of classes handled by the benchmark.
+         anno_info:
+             format:
+                 file_path: "" # Insert the file path for the annotation.
+         feat_info:
+             format:
+                 dir_path: "" # Insert the directory path where the features are located.
+                 prefix: "" # Define this variable if you are using a prefix during preprocessing.
+                 type: "" # Define this variable if you are using a mid-term value during preprocessing.
+                 ext: "" # Define this variable if you are using an extension during preprocessing.
+             meta: # Define and utilize preprocessing variables for the data.
+                 feat_stride: 4
+                 downsample_rate: 1
+                 num_frames: 16
+                 default_fps: ~
+                 max_seq_len: 2304
+                 trunc_thresh: 0.5
+                 crop_ratio: [0.9, 1.0]
+         loader: # Set up the configurations related to the dataloader.
+             pin_memory: false
+             num_workers: 20
+             seed: 1234567891
+             batch_size: 2
+             max_seq_len: ${dataset.feat_info.meta.max_seq_len}
+             padding_value: 0.0
+             max_div_factor: 1
     </details>
-4. model.yaml
+3. model.yaml
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for architecture modeling-related settings.
-   * Sample:
+   * <details>
+     <summary>Sample</summary>
+
      ```yaml
-     
-     ```
-5. engine.yaml
+     model:
+         backbone_info:
+             name: ResidualSharedBiMambaBackbone
+             ResidualSharedBiMambaBackbone:
+                 EmbeddingModule:
+                     input_c: 3200
+                     emb_c: 512
+                     kernel_size: 3
+                     stride: 1
+                     padding: ${floordiv:${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.kernel_size}, 2}
+                     dilation: 1
+                     groups: 1
+                     bias: false
+                     padding_mode: "zeros"
+                StemModule:
+                    block_n: 1
+                    emb_c: ${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.emb_c}
+                    kernel_size: 4
+                    drop_path_rate: 0.3
+                    recurrent: 4
+                BranchModule:
+                    block_n: 5
+                    emb_c: ${model.backbone_info.ResidualSharedBiMambaBackbone.EmbeddingModule.emb_c}
+                    kernel_size: 4
+                    drop_path_rate: 0.3
+         neck_info:
+             name: FPNIdentity
+             FPNIdentity:
+                 in_channels: 512
+                 out_channel: 512
+                 with_ln: true
+                 scale_factor: 2
+             FPN1D:
+                 in_channels: 512
+                 out_channel: 512
+                 with_ln: true
+                 scale_factor: 2
+         generator_info:
+             name: PointGenerator
+             PointGenerator:
+                 max_seq_len: 2304
+                 max_buffer_len_factor: 6.0
+                 scale_factor: 2
+                 fpn_levels: # TBD
+                 regression_range: [[0, 4], [4, 8], [8, 16], [16, 32], [32, 64], [64, 10000]]
+         head_info:
+             name:
+                 - PtTransformerClsHead
+                 - PtTransformerRegHead
+             PtTransformerClsHead:
+                 input_dim: 512 # fpn_dim
+                 feat_dim: 512 # head_dim
+                 num_classes: 20
+                 prior_prob: 0.01
+                 num_layers: 3
+                 kernel_size: 3
+                 with_ln: true
+                 empty_cls: []
+             PtTransformerRegHead:
+                 input_dim: 512 # fpn_dim
+                 feat_dim: 512 # head_dim
+                 fpn_levels: # TBD
+                 num_layers: 3
+                 kernel_size: 3
+                 with_ln: true
+    </details>
+4. engine.yaml
    * Location: `./tasks/${args.task}/models/${args.model}`
    * Role: Configuration file for train/infer-related settings for the target model.
-   * Sample:
+   * <details>
+     <summary>Sample</summary>
+
      ```yaml
-     
-     ```
+     engine:
+         max_epochs: 50
+         clip_grad_l2norm: 1.0
+         print_freq: 5
+         center_sample: radius
+         center_sample_radius: 1.5
+         init_loss_norm: 100
+         init_loss_norm_momentum: 0.9
+         label_smoothing: 0.0
+         loss_weight: 1.0
+         pre_nms_thresh: 0.001
+         pre_nms_topk: 2000
+         duration_thresh: 0.05
+         nms_method: soft
+         iou_threshold: 0.1
+         min_score: 0.001
+         max_seg_num: 200
+         multiclass_nms: true
+         nms_sigma: 0.5
+         voting_thresh: 0.7
+         ext_score_file:
+         criterion:
+             name: loss1
+         optimizer: 
+             name: AdamW
+             SGD:
+                 lr: 1.0e-4
+                 momentum: 0.9
+                 weight_decay: 5.0e-2
+             AdamW:
+                 lr: 1.0e-4
+                 weight_decay: 5.0e-2
+         scheduler: 
+             name: LinearWarmupCosineAnnealingLR
+             LinearWarmupCosineAnnealingLR:
+                 T_max: ${engine.max_epochs}
+                 T_warmup: 5
+                 warmup_start_lr: 0.0
+                 eta_min: 1e-8
+             LinearWarmupMultiStepLR:
+                 T_warmup: 5
+                 milestones: [30, 60, 90]
+                 warmup_start_lr: 0.0
+                 gamma: 0.1
+             CosineAnnealingLR:
+                 max_epochs: ${engine.max_epochs}
+                 eta_min: 0
+             MultiStepLR:
+                 milestone_epochs: []
+                 gamma: 0.1
+    </details>
 
 
 
