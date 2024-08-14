@@ -4,9 +4,10 @@
 ### Instructions for Environment Setting
 
 #### Step 1: Dependency setting
-⭐NOTE: We suggest using [`conda`](https://docs.conda.io/en/latest/) to manage your packages.<br>
-⭐NOTE: To prevent conflicts between dependencies, the environment was not exported to a `.yaml` or `.txt` file. Therefore, you will need to manually install the required packages according to the guidelines.<br>
-⭐NOTE: Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.<br>
+⭐NOTE
+* We suggest using [`conda`](https://docs.conda.io/en/latest/) to manage your packages.
+* To prevent conflicts between dependencies, the environment was not exported to a `.yaml` or `.txt` file. Therefore, you will need to manually install the required packages according to the guidelines.
+* Using gpu version of pytorch will significantly accelerate the feature extraction procedure. Please refer to [here](https://pytorch.org/get-started/locally/) for more detailed settings.
 ```bash
 # Clone git
 git clone https://github.com/lsy0882/RDFA-S6.git
