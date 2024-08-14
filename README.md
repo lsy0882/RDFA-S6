@@ -37,6 +37,10 @@ pip install tensorboard
 pip install mmengine
 ```
 
+<details>
+  <summary>Click to expand</summary>
+</details>
+
 #### Step 2: Configuration setting
 ⭐ This project uses `Hydra` to manage configuration files (`.yaml`). The configuration files are structured into four types, with their respective locations and roles as follows:
 1. run.yaml
