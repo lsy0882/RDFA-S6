@@ -18,11 +18,6 @@ conda activate rdfa-s6
 # Install pytorch 
 pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 
-# Install packages
-pip install hydra-core
-pip install wandb
-pip install einops
-
 # Build cmake libraries
 cd ./build/causal-conv1d/
 python setup.py develop
@@ -30,9 +25,33 @@ cd ../mamba/
 python setup.py develop
 cd ../nms_1d_cpu/
 python setup.py install --user
+cd ../..
+
+# Install packages
+pip install hydra-core
+pip install wandb
+pip install einops
+pip install torchinfo ptflops thop
+pip install pandas joblib
+pip install tensorboard
+pip install mmengine
 ```
 
-#### Step 2: Data Preprocessing
+#### Step 2: Configuration setting
+* ⭐ This project uses Hydra to manage configuration files (.yaml). The configuration files are structured into four types, with their respective locations and roles as follows:
+1. run.yaml
+* Location: ./
+* Role: Configuration file for global variables, Hydra, Wandb, and system settings.
+2. dataset.yaml
+* Location: tasks/${args.task}/benchmarks/${args.benchmark}
+* Role: Configuration file for data preprocessing and batching-related settings.
+3. model.yaml
+* Location: tasks/${args.task}/models/${args.model}
+* Role: Configuration file for architecture modeling-related settings.
+4. engine.yaml
+* Location: tasks/${args.task}/models/${args.model}
+* Role: Configuration file for train/infer-related settings for the target model.
+
 1. Open `.../FakeMix/preprocessor/data_preprocess.py`.
 2. Set the `data_directory` variable to the root directory of FakeAVCeleb.
 3. Set the `output_directory` variable to the path where you want to save the preprocessed data.
