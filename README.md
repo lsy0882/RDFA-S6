@@ -43,8 +43,7 @@ pip install mmengine
 1. run.yaml
    * Location: `./`
    * Role: Configuration file for global variables, Hydra, Wandb, and system settings.
-
-   <details>
+   * <details>
    <summary>Sample</summary>
 
    ```yaml
@@ -112,7 +111,6 @@ pip install mmengine
              level: DEBUG #! Don't change
              format: "{time} {level} {message}" #! Don't change
   </details>
-  ```
 
 2. dataset.yaml
    * Location: `./tasks/${args.task}/benchmarks/${args.benchmark}`
