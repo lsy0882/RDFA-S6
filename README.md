@@ -299,9 +299,9 @@ Link: [`Dropbox`](https://www.dropbox.com/scl/fi/r8ai5ekkws5ezoghwa11c/thumos_be
 ## Citation
 If you use this code or dataset in your research, please cite our paper:
 ```bibtex
-@article{TBD,
+@article{lee2024enhancing,
   title={Enhancing Temporal Action Localization: Advanced S6 Modeling with Recurrent Mechanism},
-  author={Anonymous},
-  journal={TBD},
+  author={Lee, Sangyoun and Jung, Juho and Oh, Changdae and Yun, Sunghee},
+  journal={arXiv preprint arXiv:2407.13078},
   year={2024}
 }
