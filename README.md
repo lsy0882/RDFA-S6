@@ -294,7 +294,8 @@ python run.py
 ```
 
 ### [Pretrained Weights Download]
-Link: [`Dropbox`](https://www.dropbox.com/scl/fi/r8ai5ekkws5ezoghwa11c/thumos_best.pt?rlkey=5is4to9v4czgbae9va3pl8mbx&st=363ym4zb&dl=0)
+Link: [`GoogleDrive`](https://drive.google.com/file/d/1sbHYjgTQdnBBD0XxMjEl-0LodRoqKLkA/view?usp=sharing)
+
 
 ## Citation
 If you use this code or dataset in your research, please cite our paper:
